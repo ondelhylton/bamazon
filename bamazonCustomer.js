@@ -16,7 +16,6 @@ connection.connect(function(err) {
 });
 
 
-
   function query() {
       inquirer
       .prompt([
@@ -61,8 +60,11 @@ connection.connect(function(err) {
                 if (answer.count <= res[0].stock_quantity) {
                         var oldStock = res[0].stock_quantity;
                         var newStock = res[0].stock_quantity - parseInt(answer.count);
+                        var productSales =  res[0].price * parseInt(answer.count)
+                        var newTotal = res[0].product_sales + productSales
                         //console.log(oldStock)
                         //console.log(newStock)
+                        //console.log(newTotal)
                       
 
                         connection.query(
@@ -72,6 +74,17 @@ connection.connect(function(err) {
                           },
                           {item_id: answer.item_id}
                           ]);
+
+                          
+                          connection.query(
+                            "UPDATE products SET ? WHERE ?",
+                            [{
+                              product_sales: newTotal,
+                            },
+                            {item_id: answer.item_id}
+                            ]);
+
+
 
                     console.log("You've been charged $" + res[0].price * parseInt(answer.count) + " for " + answer.count + " " +  res[0].product_name + "s!" +
                     '\n' + "Product: " +
