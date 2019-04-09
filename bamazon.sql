@@ -53,6 +53,8 @@ VALUES (10, "Dishwasher", "Appliances", 200, 4, 0);
 SELECT * FROM products;
 SHOW TABLES;
 
+
+
 DROP TABLE IF EXISTS departments;
 CREATE TABLE departments (
 	department_id INT NOT NULL,
@@ -61,4 +63,4 @@ CREATE TABLE departments (
     PRIMARY KEY (item_id)
 );
 
-
+SELECT * FROM departments;
