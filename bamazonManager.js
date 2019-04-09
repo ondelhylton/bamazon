@@ -77,9 +77,9 @@ function manager() {
 
 
  function lowInventory() {
-  var query = 'SELECT * FROM products WHERE stock_quantity > 10'; 
+  var query = 'SELECT * FROM products WHERE stock_quantity < 5'; 
       connection.query(query, function(err, res) {
-        console.log(res);
+        // console.log(res);
         for (var i = 0; i < res.length; i++) {
           console.log('\n' + "Product: " +
           res[i].product_name + 
@@ -89,6 +89,8 @@ function manager() {
           res[i].department_name +
           '\n' + "Item Price: $" + 
           res[i].price +
+          '\n' + "Quantity: " + 
+          res[i].stock_quantity +
           '\n' 
             );
         }
