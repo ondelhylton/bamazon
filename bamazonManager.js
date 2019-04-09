@@ -163,6 +163,79 @@ function addInventory() {
 
 
 
+function addProduct() {
+  // prompt for info about the item being put up for auction
+  inquirer
+    .prompt([
+      {
+        name: "name",
+        type: "input",
+        message: "Name of the new item would you like to submit?"
+      },
+      {
+        name: "department",
+        type: "input",
+        message: "What department would you like to place your item in?"
+      },
+      {
+        name: "price",
+        type: "input",
+        message: "What is the price of the new item?($)",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      },
+      {
+        name: "quantity",
+        type: "input",
+        message: "How many of the items would you like to add?",
+        validate: function(value) {
+          if (isNaN(value) === false) {
+            return true;
+          }
+          return false;
+        }
+      }
+    ])
+    .then(function(answer) {
+      var queryID = 'SELECT item_id FROM products'; 
+      connection.query(queryID, function(err, res) {
+    newID = res.length + 1;
+    //console.log(res.length + 1);
+        
+      connection.query(
+        "INSERT INTO products SET ?",
+        { item_id: newID,
+          product_name: answer.name,
+          department_name: answer.department,
+          price: answer.price,
+          stock_quantity: answer.quantity
+        },
+        function(err) {
+          if (err) throw err;
+          console.log('\n' + "Your item was successfully added!!!" +
+          '\n' + "Product: " +
+          answer.name + 
+          '\n' + "Product ID: " + 
+          newID + 
+          '\n' + "Department: " + 
+          answer.department +
+          '\n' + "Item Price: $" + 
+          answer.price +
+          '\n'  + "Quantity: " + 
+          answer.quantity +
+          '\n' );
+          manager();
+        }
+      );
+    });
+  });   
+}
+
+
 
 
 
